@@ -1,0 +1,15 @@
+{
+  "name": "amazon-graphql-test",
+  "version": "1.0.0",
+  "main": "server.js",
+  "author": "Ishika&Angelo",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "dependencies": {
+    "apollo-server": "^2.19.2",
+    "graphql-tag": "^2.11.0"
+  }
+}
