@@ -7,6 +7,7 @@ const typeDefs = gql`
     avatar: String!
     friendsNumber: Int!
     friends: [User]
+    shoe: Shoe
   }
 
   type Product {
@@ -18,17 +19,20 @@ const typeDefs = gql`
   interface Shoe {
     brand: ShoeType
     size: Int!
+    user: User
   }
 
   type Sneaker implements Shoe {
     brand: ShoeType
     size: Int!
+    user: User
     sport: String!
   }
 
   type Boot implements Shoe {
     brand: ShoeType
     size: Int!
+    user: User
     hasGrip: Boolean!
   }
 
@@ -62,15 +66,17 @@ const typeDefs = gql`
   }
 `;
 
+const user = {
+  email: "sab@carp.com",
+  avatar: "https://www.apple.com",
+  friendsNumber: 2,
+  friends: [],
+};
+
 const resolvers = {
   Query: {
     me() {
-      return {
-        email: "sab@carp.com",
-        avatar: "https://www.apple.com",
-        friendsNumber: 2,
-        friends: [],
-      };
+      return user;
     },
     product(_, { chinese, input }, ctx) {
       console.log("input", input);
@@ -106,6 +112,25 @@ const resolvers = {
     __resolveType(shoe) {
       if (shoe.hasGrip) return "Boot";
       return "Sneaker";
+    },
+  },
+  Sneaker: {
+    user(shoe) {
+      return user;
+    },
+  },
+  Boot: {
+    user(shoe) {
+      return user;
+    },
+  },
+  User: {
+    shoe(user) {
+      return {
+        brand: "JORDAN",
+        size: 7,
+        hasGrip: true,
+      };
     },
   },
 };
